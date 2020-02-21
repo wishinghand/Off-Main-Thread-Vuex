@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import Loader from "@/components/Loader";
+import Loader from '@/components/Loader.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    Loader
-  }
+    Loader,
+  },
 };
 </script>
 

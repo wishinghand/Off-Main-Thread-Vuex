@@ -1,15 +1,15 @@
 function calculatePrimes(iterations, multiplier) {
-  var primes = [];
+  const primes = [];
   const now = Date.now();
 
   // Casual UI-Locking code for 2 seconds!
   while (now + 2000 >= Date.now());
 
   // Heavy computation!
-  for (var i = 0; i < iterations; i++) {
-    var candidate = i * (multiplier * Math.random());
-    var isPrime = true;
-    for (var c = 2; c <= Math.sqrt(candidate); ++c) {
+  for (let i = 0; i < iterations; i++) {
+    const candidate = i * (multiplier * Math.random());
+    let isPrime = true;
+    for (let c = 2; c <= Math.sqrt(candidate); ++c) {
       if (candidate % c === 0) {
         // not prime
         isPrime = false;
@@ -23,12 +23,12 @@ function calculatePrimes(iterations, multiplier) {
   return primes;
 }
 
-onmessage = e => {
-  if (e.data === "generateItems") {
+onmessage = (e) => {
+  if (e.data === 'generateItems') {
     // Perform the calculation
-    self.postMessage({ type: "SET_WORKING", payload: true });
+    self.postMessage({ type: 'SET_WORKING', payload: true });
     const primes = calculatePrimes(400, 1000000000);
-    self.postMessage({ type: "SET_ITEMS", payload: primes });
-    self.postMessage({ type: "SET_WORKING", payload: false });
+    self.postMessage({ type: 'SET_ITEMS', payload: primes });
+    self.postMessage({ type: 'SET_WORKING', payload: false });
   }
 };

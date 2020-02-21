@@ -12,7 +12,7 @@
 <script>
 // https://tobiasahlin.com/spinkit/
 export default {
-  name: "Loader"
+  name: 'Loader',
 };
 </script>
 

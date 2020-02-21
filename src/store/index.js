@@ -1,61 +1,61 @@
-import Vuex from "vuex";
-import Vue from "vue";
+import Vuex from 'vuex';
+import Vue from 'vue';
 
 const actions = new Worker('./actions.js', { type: 'module' });
 
 Vue.use(Vuex);
 
-function calculatePrimes(iterations, multiplier) {
-  var primes = [];
-  const now = Date.now();
+// function calculatePrimes(iterations, multiplier) {
+//   const primes = [];
+//   const now = Date.now();
 
-  // Casual UI-Locking code for 2 seconds!
-  while (now + 2000 >= Date.now());
+//   // Casual UI-Locking code for 2 seconds!
+//   while (now + 2000 >= Date.now());
 
-  // Heavy computation!
-  for (var i = 0; i < iterations; i++) {
-    var candidate = i * (multiplier * Math.random());
-    var isPrime = true;
-    
-    for (var c = 2; c <= Math.sqrt(candidate); ++c) {
-      if (candidate % c === 0) {
-        // not prime
-        isPrime = false;
-        break;
-      }
-    }
-    
-    if (isPrime) {
-      primes.push(candidate);
-    }
-  }
-  return primes;
-}
+//   // Heavy computation!
+//   for (let i = 0; i < iterations; i++) {
+//     const candidate = i * (multiplier * Math.random());
+//     let isPrime = true;
+
+//     for (let c = 2; c <= Math.sqrt(candidate); ++c) {
+//       if (candidate % c === 0) {
+//         // not prime
+//         isPrime = false;
+//         break;
+//       }
+//     }
+
+//     if (isPrime) {
+//       primes.push(candidate);
+//     }
+//   }
+//   return primes;
+// }
 
 const store = new Vuex.Store({
   state: {
     items: [],
-    isWorking: false
+    isWorking: false,
   },
 
   mutations: {
     SET_ITEMS(state, items) {
       state.items = items;
     },
-    
+
     SET_WORKING(state, value) {
       state.isWorking = value;
-    }
+    },
   },
 
   actions: {
     // generateItems({ commit }) {
     //   commit("SET_WORKING", true);
-      
+
     //   const primes = calculatePrimes(400, 1000000000);
-      
+
     //   commit("SET_WORKING", false);
-      
+
     //   commit("SET_ITEMS", primes);
     // },
 
@@ -64,20 +64,20 @@ const store = new Vuex.Store({
     //   commit('SET_WORKING', true);
 
     //   actions.postMessage('generateItems'); // how do we wait for the data?
-    //   // actions.postMessage('generateItems', { commit }); // Can we send commit fn to the worker?
+    // // actions.postMessage('generateItems', { commit }); // Can we send commit fn to the worker?
 
     //   commit('SET_WORKING', false);
     // },
 
-    async generateItems({ commit }) {
+    async generateItems() {
       actions.postMessage('generateItems');
-    }
-  }
+    },
+  },
 });
 
 
 // Handle incoming messages as commits!
-actions.onmessage = e => {
+actions.onmessage = (e) => {
   store.commit(e.data.type, e.data.payload);
 };
 
